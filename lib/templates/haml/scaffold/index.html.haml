@@ -1,0 +1,24 @@
+.card
+  .card-header.d-flex.align-items-center
+    %span Listing <%= plural_table_name.titleize %>
+
+    = link_to 'New <%= human_name %>', new_<%= singular_table_name %>_path, class: 'btn btn-outline-secondary ms-auto'
+
+  %table.table
+    %thead
+      %tr
+<% for attribute in attributes -%>
+        %th <%= attribute.human_name %>
+<% end -%>
+        %th
+    %tbody
+      - @<%= plural_table_name %>.each do |<%= singular_table_name %>|
+        %tr
+<% for attribute in attributes -%>
+          %td= <%= singular_table_name %>.<%= attribute.name %>
+<% end -%>
+          %td
+            .btn-toolbar.float-end
+              = link_to 'Show', <%= singular_table_name %>, class: 'btn btn-outline-secondary btn-sm'
+              = link_to 'Edit', edit_<%= singular_table_name %>_path(<%= singular_table_name %>), class: 'btn btn-outline-secondary ms-1 btn-sm'
+              = link_to 'Destroy', <%= singular_table_name %>, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'

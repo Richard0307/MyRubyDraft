@@ -1,0 +1,14 @@
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        <%= singular_table_name.titleize %> details
+      .card-body
+        %dl.row.mb-0
+<% for attribute in attributes -%>
+          %dt.col-md-3 <%= attribute.human_name %>:
+          %dd.col-md-9= @<%= singular_table_name %>.<%= attribute.name %>
+<% end -%>
+      .card-footer.d-flex
+        = link_to 'Edit', edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), class: 'btn btn-link'
+        = link_to 'Back', <%= index_helper %>_path, class: 'btn btn-link ms-auto'

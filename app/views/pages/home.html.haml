@@ -1,0 +1,35 @@
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+.content-container
+  .row
+    .col-md-7
+      %h1
+        A system for managing placement applications
+
+      %p.lead
+        This is a system for managing placement applications. It is designed to be used by students and employers.
+
+    .col-md-5
+      %image
+        = image_pack_tag 'home_page1.png', class: 'img-fluid'
+
+  %button.btn.btn-primary.mb-3{type: :button, data: { bs_toggle: :collapse, bs_target: '#products-table' }, aria: { controls: 'products-table', expanded: 'false' } }
+    Click to see our selection
+
+  #products-table.collapse
+    %table.table.table-striped.table-success
+      %thead
+        %tr
+          %th
+            Product
+          %th
+            Description
+      - Product.all.each do |product|
+        %tr
+          %td
+            = product.name
+          %td
+            = product.description
+%h2.welcome-message
+  Welcome, #{current_user.email}!

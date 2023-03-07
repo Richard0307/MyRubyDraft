@@ -1,0 +1,15 @@
+- content_for :title, 'Log In'
+
+.row.justify-content-center
+  .col-sm-6.col-lg-4
+    .card.card-light
+      = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .card-header
+          Log In
+        .card-body
+          = f.input :email, autofocus: true, required: true
+          = f.input :password, required: true
+        .card-footer
+          %button.btn.btn-primary{ type: :submit }
+            Log in
+          .mt-3= render "devise/shared/links"

@@ -1,0 +1,36 @@
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+.card
+  .card-header.d-flex.align-items-center
+    %span Listing Updateprofiles
+
+    = link_to 'New Updateprofile', new_updateprofile_path, class: 'btn btn-outline-secondary ms-auto'
+
+  %table.table
+    %thead
+      %tr
+        %th First name
+        %th Last name
+        %th Email
+        %th Student status
+        %th Reason for withdrawing
+        %th Location
+        %th Course
+        %th Sector
+        %th
+    %tbody
+      - @updateprofiles.each do |updateprofile|
+        %tr
+          %td= updateprofile.first_name
+          %td= updateprofile.last_name
+          %td= updateprofile.email
+          %td= updateprofile.student_status
+          %td= updateprofile.reason_for_withdrawing
+          %td= updateprofile.location
+          %td= updateprofile.course
+          %td= updateprofile.sector
+          %td
+            .btn-toolbar.float-end
+              = link_to 'Show', updateprofile, class: 'btn btn-outline-secondary btn-sm'
+              = link_to 'Edit', edit_updateprofile_path(updateprofile), class: 'btn btn-outline-secondary ms-1 btn-sm'
+              = link_to 'Destroy', updateprofile, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'

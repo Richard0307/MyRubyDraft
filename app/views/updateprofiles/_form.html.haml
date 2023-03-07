@@ -1,0 +1,16 @@
+-# frozen_string_literal: true
+= simple_form_for(@updateprofile) do |f|
+  .card-body
+    = f.input :first_name, wrapper_html: { class: 'mb-3' }
+    = f.input :last_name, wrapper_html: { class: 'mb-3' }
+    = f.input :email, wrapper_html: { class: 'mb-3' }
+    = f.input :student_status, wrapper_html: { class: 'mb-3' }
+    = f.input :reason_for_withdrawing, wrapper_html: { class: 'mb-3' }
+    = f.input :location, wrapper_html: { class: 'mb-3' }
+    = f.input :course, wrapper_html: { class: 'mb-3' }
+    = f.input :sector, wrapper_html: { class: 'mb-3' }
+
+  .card-footer.d-flex
+    %button.btn.btn-primary{ type: 'submit' }
+      Save
+    = link_to 'Back', updateprofiles_path, class: 'btn btn-link ms-auto'

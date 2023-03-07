@@ -1,0 +1,155 @@
+image: epigenesys/rails:ruby3.1.2
+services:
+  - "postgres:14"
+  - name: selenium/standalone-chrome
+    alias: chrome
+
+variables:
+  POSTGRES_DB: 'ci_test'
+  POSTGRES_USER: 'runner'
+  POSTGRES_PASSWORD: 'runner'
+  POSTGRES_HOST_AUTH_METHOD: 'trust'
+  SELENIUM_HOST: chrome
+  SELENIUM_PORT: 4444
+
+stages:
+  - setup
+  - test
+  - security
+
+.except:
+  except:
+    - qa
+    - demo
+    - training
+    - tags
+
+bundler:
+  stage: setup
+  interruptible: true
+  cache:
+    key:
+      files:
+        - Gemfile.lock
+    paths:
+      - vendor/gems
+    policy: pull-push
+  services: []
+  extends: .except
+
+  script:
+    - bundle config --global jobs "$(nproc)"
+    - bundle config --local path 'vendor/gems'
+    - bundle check || bundle install
+    - bundle clean
+    - "echo -e \"test:\n  adapter: postgresql\n  host: postgres\n  database: ci_test\n  username: runner\n  password: runner\" > config/database.yml"
+
+  artifacts:
+    paths:
+      - vendor/gems
+      - vendor/webdrivers
+    expire_in: 1 day
+  timeout: 20m
+
+yarn:
+  stage: setup
+  interruptible: true
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - node_modules
+    policy: pull-push
+  services: []
+  extends: .except
+
+  script:
+    - yarn check --integrity || yarn install
+  artifacts:
+    paths:
+      - node_modules
+    expire_in: 1 day
+  timeout: 20m
+
+rspec:
+  stage: test
+  interruptible: true
+  before_script:
+    - bundle config --global jobs "$(nproc)"
+    - bundle config --local path 'vendor/gems'
+
+    - "echo -e \"test:\n  adapter: postgresql\n  host: postgres\n  database: ci_test\n  username: runner\n  password: runner\" > config/database.yml"
+    - bundle check
+    - RAILS_ENV=test bundle exec rails db:test:prepare
+  extends: .except
+  needs:
+    - bundler
+    - yarn
+  script:
+    - RAILS_ENV=test bundle exec rake
+
+# jest:
+#   stage: test
+#   interruptible: true
+#   needs:
+#     - yarn
+#   script:
+#     - yarn check --integrity
+#     - yarn test
+
+.security-stage-rules:
+  rules:
+    - if: $SKIP_CI_SECURITY_STAGE != null
+      when: manual
+    - if:  $CI_COMMIT_TAG != null || $CI_COMMIT_BRANCH =~ /^qa|demo|training$/
+      when: never
+    - when: always
+
+bundler-audit:
+  stage: security
+  extends: .security-stage-rules
+  interruptible: true
+  timeout: 20m
+  services: []
+  needs:
+    - bundler
+  allow_failure: false
+  script:
+    - bundle config --local path 'vendor/gems'
+    - bundle check
+    - bundle exec bundler-audit check --update
+
+yarn-audit:
+  stage: security
+  extends: .security-stage-rules
+  interruptible: true
+  timeout: 20m
+  services: []
+  needs:
+    - yarn
+  allow_failure: false
+  script:
+    - yarn check --integrity
+    - yarn run improved-yarn-audit --fail-on-missing-exclusions
+
+
+brakeman:
+  stage: security
+  interruptible: true
+  timeout: 20m
+  services: []
+  extends: .security-stage-rules
+  needs:
+    - bundler
+  artifacts:
+    when: always
+    paths:
+      - brakeman
+  # Run `brakeman -I` on your machine to generate an ignore file.
+  # For any false positives choose the 'n' option and explain why it's a false positive.
+  # Once you commit the updated ingnore files they will no longer brake the build
+  allow_failure: false
+  script:
+    - bundle check --path vendor/gems
+    - bundle exec brakeman --color -o /dev/stdout -o brakeman/index.html

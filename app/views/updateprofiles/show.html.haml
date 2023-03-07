@@ -1,0 +1,26 @@
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Updateprofile details
+      .card-body
+        %dl.row.mb-0
+          %dt.col-md-3 First name:
+          %dd.col-md-9= @updateprofile.first_name
+          %dt.col-md-3 Last name:
+          %dd.col-md-9= @updateprofile.last_name
+          %dt.col-md-3 Email:
+          %dd.col-md-9= @updateprofile.email
+          %dt.col-md-3 Student status:
+          %dd.col-md-9= @updateprofile.student_status
+          %dt.col-md-3 Reason for withdrawing:
+          %dd.col-md-9= @updateprofile.reason_for_withdrawing
+          %dt.col-md-3 Location:
+          %dd.col-md-9= @updateprofile.location
+          %dt.col-md-3 Course:
+          %dd.col-md-9= @updateprofile.course
+          %dt.col-md-3 Sector:
+          %dd.col-md-9= @updateprofile.sector
+      .card-footer.d-flex
+        = link_to 'Edit', edit_updateprofile_path(@updateprofile), class: 'btn btn-link'
+        = link_to 'Back', updateprofiles_path, class: 'btn btn-link ms-auto'

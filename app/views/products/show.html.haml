@@ -1,0 +1,16 @@
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Product details
+      .card-body
+        %dl.row.mb-0
+          %dt.col-md-3 Name:
+          %dd.col-md-9= @product.name
+          %dt.col-md-3 Description:
+          %dd.col-md-9= @product.description
+          %dt.col-md-3 Cost:
+          %dd.col-md-9= @product.cost
+      .card-footer.d-flex
+        = link_to 'Edit', edit_product_path(@product), class: 'btn btn-link'
+        = link_to 'Back', products_path, class: 'btn btn-link ms-auto'

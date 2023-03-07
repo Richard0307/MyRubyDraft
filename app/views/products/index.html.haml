@@ -1,0 +1,36 @@
+.card
+  .card-header.d-flex.align-items-center
+    %span Listing Products
+    %span.ms-1 (There are #{@products.size} products available.)
+
+    .ms-auto.float-end
+      = link_to 'Categories', categories_path, class: 'btn btn-outline-secondary ms-auto'
+      = link_to 'New Product', new_product_path, class: 'btn btn-outline-secondary ms-auto'
+
+  = simple_form_for :search, url: search_products_path, method: :post do |f|
+    = f.input :name
+    = f.input :category_id, as: :select, collection: Category.active
+
+    = f.submit 'Search'
+    = link_to 'Reset', products_path
+
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th Description
+        %th Cost
+        %th Category
+        %th
+    %tbody
+      - @products.each do |product|
+        %tr
+          %td= product.name
+          %td= product.description
+          %td= product.cost
+          %td= product.category.try(:name)
+          %td
+            .btn-toolbar.float-end
+              = link_to 'Show', product, class: 'btn btn-outline-secondary btn-sm'
+              = link_to 'Edit', edit_product_path(product), class: 'btn btn-outline-secondary ms-1 btn-sm'
+              = link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'

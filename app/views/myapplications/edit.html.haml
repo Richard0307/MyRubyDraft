@@ -1,0 +1,35 @@
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+%h1 Edit Application
+
+= form_for @myapplications do |f|
+  .row
+    .col-md-6
+      .form-group.form-group-left
+        = f.label :company
+        = f.text_field :company, class: 'form-control'
+      .form-group.form-group-left
+        = f.label :application_deadline
+        = f.date_field :application_deadline, class: 'form-control'
+      .form-group.form-group-left
+        = f.label :date_applied
+        = f.date_field :date_applied, class: 'form-control'
+      .form-group.form-group-left
+        = f.label :role
+        = f.text_field :role, class: 'form-control'
+      .form-group.form-group-left
+        = f.label :status
+        = f.select :status, options_for_select([["Applied"], ["Asked to complete test"], ["Offered initial interview"], ["Offered final interview"], ["Invited to assessment center"], ["Offered Placement"]]), {include_blank: true}, class: 'form-control'
+      .form-group.form-group-left
+        = f.label :location
+        = f.text_field :location, class: 'form-control'
+    .col-md-6
+      .form-group.form-group-right
+        = f.label :job_description, "Job Description", class: 'text-primary'
+        = f.text_area :job_description, class: 'form-control', placeholder: "Keep a record of the posting here as it may be taken down after the application deadline."
+      .form-group.form-group-right
+        = f.label :notes_for_interview_and_reflections, "Notes for interview and reflections", class: 'text-primary'
+        = f.text_area :notes_for_interview_and_reflections, class: 'form-control', placeholder: "Why this company and role?\nWhat were you asked? What went well? What can you improve on?", rows: 10
+  .col-md-12
+    = f.submit 'Update Application', class: 'btn btn-primary'

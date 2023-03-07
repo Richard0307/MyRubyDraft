@@ -1,0 +1,8 @@
+%h1 Statistics
+
+%form
+  %label{ for: 'year' } Year:
+  %input{ type: 'number', name: 'year', min: '2000', max: Time.current.year.to_s, value: params[:year] }
+  %button{ type: 'submit' } Filter
+
+%div{ id: 'chart' }= high_chart("chart", @chart)

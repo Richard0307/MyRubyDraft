@@ -1,0 +1,10 @@
+@use "sass:math";
+@import "variables";
+@import '~bootstrap/scss/mixins';
+
+.content-container {
+  background-color: $light;
+  box-shadow: 0 2px 0.25rem rgb(126 142 177 / 6%);
+  border-radius: $border-radius;
+  padding: $spacer;
+}

@@ -1,0 +1,12 @@
+<%
+  # Monitor delayed job processes to:
+  # 1. Make sure they're running
+  # 2. Restart if the memory usage stays above 50% for 5 cycles.
+  #    This stops anything leaky creating memory issues.
+%>
+check process delayed_job-<%= fetch(:application)%>-<%= fetch(:rails_env)%>
+  with pidfile "<%= File.join(shared_path, 'tmp', 'pids', 'delayed_job.pid') %>"
+  group "<%= fetch(:user)%>"
+  start program = "/bin/su - <%= fetch(:user)%> -c 'cd <%= current_path %> && RAILS_ENV=<%= fetch(:rails_env)%> <%= SSHKit.config.command_map[:bundle] %> exec bin/delayed_job -n <%= fetch(:delayed_job_workers)%> -p <%= fetch(:delayed_job_identifier)%> start'"
+  stop program = "/bin/su - <%= fetch(:user)%> -c  'cd <%= current_path %> && /usr/bin/env RAILS_ENV=<%= fetch(:rails_env)%> <%= SSHKit.config.command_map[:bundle] %> exec bin/delayed_job stop'"
+  if memory usage > 50% for 5 cycles then restart

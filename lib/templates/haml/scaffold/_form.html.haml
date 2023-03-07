@@ -1,0 +1,11 @@
+-# frozen_string_literal: true
+= simple_form_for(@<%= singular_table_name %>) do |f|
+  .card-body
+  <%- attributes.each do |attribute| -%>
+    = f.<%= attribute.reference? ? :association : :input %> :<%= attribute.name %>, wrapper_html: { class: 'mb-3' }
+  <%- end -%>
+
+  .card-footer.d-flex
+    %button.btn.btn-primary{ type: 'submit' }
+      Save
+    = link_to 'Back', <%= index_helper %>_path, class: 'btn btn-link ms-auto'

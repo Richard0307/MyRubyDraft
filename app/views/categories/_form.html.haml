@@ -1,0 +1,12 @@
+-# frozen_string_literal: true
+= simple_form_for(@category) do |f|
+  .card-body
+    = f.input :code
+    = f.input :name
+    = f.input :active, as: :radio_buttons
+    = f.association :tags, as: :check_boxes
+
+  .card-footer.d-flex
+    %button.btn.btn-primary{ type: 'submit' }
+      Save
+    = link_to 'Back', categories_path, class: 'btn btn-link ms-auto'

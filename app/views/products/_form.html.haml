@@ -1,0 +1,13 @@
+-# frozen_string_literal: true
+= simple_form_for(@product) do |f|
+  .card-body
+    = f.input :name, wrapper_html: { class: 'mb-3' }
+    = f.input :description, wrapper_html: { class: 'mb-3' }
+    = f.input :cost, wrapper_html: { class: 'mb-3' }
+
+    = f.association :category
+
+  .card-footer.d-flex
+    %button.btn.btn-primary{ type: 'submit' }
+      Save
+    = link_to 'Back', products_path, class: 'btn btn-link ms-auto'
