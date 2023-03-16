@@ -1,31 +1,12 @@
 <!-- CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
--# %h1 Notifications
--#
--# %table.table.table-striped
--#   %thead
--#     %tr
--#       %th Title
--#       %th Description
--#       %th Date
--#
--#   %tbody
--#     - @notifications.each do |notification|
--#       %tr
--#         %td= notification.title
--#         %td= notification.description
--#         %td= notification.created_at
+
 %h1 Notifications
 
-.row
-  - @notifications.each do |notification|
-    - if notification.notification_type == "feedback_notification"
-      .col-md-6
-        .alert.alert-warning
-          %h4= notification.title
-          %p= notification.description
-    - elsif notification.notification_type == "application_notification"
-      .col-md-6
-        .alert.alert-success
-          %h4= notification.title
-          %p= notification.description
+- @notifications.each do |notification|
+  %div
+    %h2= notification.title
+    %p= notification.description
+    %p= notification.created_at.strftime('%b %d, %Y %H:%M')
+    - unless notification.read?
+      = link_to "Mark as Read", mark_as_read_notification_path(notification), method: :put

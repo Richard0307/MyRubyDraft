@@ -1,0 +1,19 @@
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Mock Interview details
+      .card-body
+        %dl.row.mb-0
+          %dt.col-md-3 Interviewer name:
+          %dd.col-md-9= @mock_interview.interviewer_name
+          %dt.col-md-3 Feedback:
+          %dd.col-md-9= @mock_interview.feedback
+          %dt.col-md-3 User:
+          %dd.col-md-9= @mock_interview.user.email
+      .card-footer.d-flex
+        = link_to 'Edit', edit_mock_interview_path(@mock_interview), class: 'btn btn-link'
+        = link_to 'Back', mock_interviews_path, class: 'btn btn-link ms-auto'

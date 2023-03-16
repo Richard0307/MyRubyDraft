@@ -49,6 +49,9 @@
               .nav-item
                 = link_to updateprofiles_path, class: 'nav-link' do
                   Update Profile
+              .nav-item
+                = link_to new_mock_interview_path, class: 'nav-link' do
+                  Mock Interview
 
         = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger'
 

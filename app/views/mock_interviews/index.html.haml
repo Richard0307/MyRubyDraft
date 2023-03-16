@@ -1,0 +1,27 @@
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+.card
+  .card-header.d-flex.align-items-center
+    %span Listing Mock Interviews
+
+    = link_to 'New Mock interview', new_mock_interview_path, class: 'btn btn-outline-secondary ms-auto'
+
+  %table.table
+    %thead
+      %tr
+        %th Interviewer name
+        %th Feedback
+        %th User
+        %th
+    %tbody
+      - @mock_interviews.each do |mock_interview|
+        %tr
+          %td= mock_interview.interviewer_name
+          %td= mock_interview.feedback
+          %td= mock_interview.user.email
+          %td
+            .btn-toolbar.float-end
+              = link_to 'Show', mock_interview, class: 'btn btn-outline-secondary btn-sm'
+              = link_to 'Edit', edit_mock_interview_path(mock_interview), class: 'btn btn-outline-secondary ms-1 btn-sm'
+              = link_to 'Destroy', mock_interview, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
