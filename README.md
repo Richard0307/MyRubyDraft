@@ -17,3 +17,4 @@ Database conflicts—> Run ‘rails destroy migration users’
 
 Finally,Run ‘rails db:migrate’
 Finally,Run ‘rails db:migrate’
+Finally,Run ‘rails db:migrate’
