@@ -16,3 +16,4 @@ Database conflicts—> Run ‘rails destroy migration users’
 **Reason: Delete the conflicting database files and you can migrate**
 
 Finally,Run ‘rails db:migrate’
+Finally,Run ‘rails db:migrate’
